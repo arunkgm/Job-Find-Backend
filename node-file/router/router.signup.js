@@ -93,7 +93,7 @@ route.post("/emppost", async (req,res) => {
         let  Employee = await empprofilepost.save()
         res.status(200).json(Employee);
     }catch (err){
-        req.status(500).send(" Not post your empdata ");
+        req.status(500).send(err);
     }
 });
 
@@ -109,7 +109,7 @@ route.get("/getempall", async (req,res) => {
 
 route.get("/getprofileemp/:id", async (req,res) => {
     try{
-        const getempdata = await empprofile.findById(req.users._id);
+        const getempdata = await empprofile.findById(req.params._id);
         res.status(200).json(getempdata);
     }catch (err) {
    res.json({"err":err})
@@ -118,7 +118,7 @@ route.get("/getprofileemp/:id", async (req,res) => {
 
 route.get("/userId/:userId",  async (req, res) =>{
     try {
-      const data = await empprofile.findOne({userId:req.users.userId});
+      const data = await empprofile.findOne({userId:req.user.userId});
       res.send(data);
     } catch (err) {
       res.status(400).json("Error in Find By UserId");

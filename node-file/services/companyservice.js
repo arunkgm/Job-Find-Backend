@@ -35,19 +35,20 @@ const firstpage = {
     async Login(req,res){
 
      try{
-    let alreadyEmail = await companyloginschema.findOne({ EmailId: req.body.EmailId});
-      if(!alreadyEmail){
+    let admin = await companyloginschema.findOne({ EmailId: req.body.EmailId});
+      if(!admin){
             return res.status(400).json("Invalid Email-Id");
       }
       let PasswordValidation = await bcrypt.compare(
           req.body.Password,
-          alreadyEmail.Password
+          admin.Password
       );
       if(!PasswordValidation){
          return res.status(400).json("Your Pass is Wrong");
       }
        
      let userToken = jwt.sign({_id:admin._id,EmailId:admin.EmailId,role:admin.role},"userinfoSecretId");
+     res.send(userToken);
     //    res.header("auth",userToken).send(userToken);
        
      }catch(err){

@@ -1,6 +1,6 @@
 const fildschema = require("../schema/schema.signup");
 const jwt = require("jsonwebtoken"); 
-const userdatas = require("../schema/schema.signup")
+// const userdatas = require("../schema/schema.signup")
 
 
 const bcrypt = require("bcryptjs");
@@ -36,20 +36,20 @@ const firstpage = {
     async Login(req,res){
 
      try{
-    let alreadyEmail = await fildschema.findOne({ EmailId: req.body.EmailId});
-      if(!alreadyEmail){
+    let user = await fildschema.findOne({ EmailId: req.body.EmailId});
+      if(!user){
             return res.status(400).json("Invalid Email-Id");
       }
       let PasswordValidation = await bcrypt.compare(
           req.body.Password,
-          alreadyEmail.Password
+          user.Password
       );
       if(!PasswordValidation){
          return res.status(400).json("Your Pass is Wrong");
       }
 
     let userToken = jwt.sign({_id:user._id,EmailId:user.EmailId,role:user.role},"userinfoSecretId");
-       console.log(userToken)
+    res.send(userToken);
      }catch(err){
         res.status(500).send("error");
      }

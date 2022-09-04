@@ -1,7 +1,7 @@
 //  user Login schema
-const datas = require("../services/service.signup")
+const datas = require("../schema/schema.signup")
 // Admin Login 
-const adminlogin = require ("../services/companyservice")
+const adminlogin = require ("../schema/companyschema")
 
 
 
@@ -13,7 +13,7 @@ async function Tokenauth(req, res, next) {
     req.user = null
     try {
         if (req.headers && req.headers.authorization) {
-            const [_, token] = req.headers.authorization.spilt(" ");
+            const [_, token] = req.headers.authorization.split(" ");
             const user = await jwt.verify(token, "userinfoSecretId");
             if (user.role === "user") {
                 const users = await datas.findOne({EmailId:user.EmailId})
@@ -34,8 +34,6 @@ async function Tokenauth(req, res, next) {
             else {
                 throw new Error("User doesn't exists")
             }
-            req.user = user
-            next();
         } else {
             res.status(403).send("log in")
         }

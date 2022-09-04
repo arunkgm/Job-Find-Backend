@@ -25,7 +25,7 @@ mongoose.connect(
     "mongodb://localhost:27017/Data",
     { useNewUrlParser: true, useUnifiedTopology: true },
     () => {
-        console.log("database startted")
+        console.log("database started")
     }
 
 );
@@ -35,13 +35,13 @@ mongoose.connect(
 
 
 // Defining Routers
-app.use("/datapush",datas.signUp);
-app.use("/login",datas.Login);
+app.post("/datapush",datas.signUp);
+app.post("/login",datas.Login);
 
 
 //company page  route
-app.use("/companysignup",companydatas.signUp);
-app.use("/companylogin",companydatas.Login);
+app.post("/companysignup",companydatas.signUp);
+app.post("/companylogin",companydatas.Login);
 
 // middleware 
 app.use(token)
@@ -52,3 +52,4 @@ app.use("/",route);
 
 
 app.listen(port,console.log("server listening at port 4001"));
+
