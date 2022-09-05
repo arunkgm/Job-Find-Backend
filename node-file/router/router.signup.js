@@ -57,8 +57,9 @@ route.get("/get", async (req,res) => {
 
 // get req by id
 route.get("/getPost/:id", async (req,res) => {
+      console.log(req.user)
     try{
-        const getAll = await postdetails.findById(req.params.id);
+        const getAll = await postdetails.findById(req.user._id);
         res.status(200).json(getAll);
     }catch (err) {
    res.json({"err":err})
